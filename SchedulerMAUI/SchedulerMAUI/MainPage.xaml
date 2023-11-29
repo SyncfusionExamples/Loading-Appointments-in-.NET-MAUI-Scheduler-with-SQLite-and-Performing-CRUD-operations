@@ -17,7 +17,7 @@
                            ShowWeekNumber="True"
                            AllowedViews="Day,Week,WorkWeek,Agenda,Month,TimelineDay,TimelineWeek,TimelineWorkWeek,TimelineMonth">
                 <scheduler:SfScheduler.BindingContext>
-                    <local:BusinessObjectViewModel x:Name="viewmodel"/>
+                    <local:SchedulerViewModel/>
                 </scheduler:SfScheduler.BindingContext>
             </scheduler:SfScheduler>
 
