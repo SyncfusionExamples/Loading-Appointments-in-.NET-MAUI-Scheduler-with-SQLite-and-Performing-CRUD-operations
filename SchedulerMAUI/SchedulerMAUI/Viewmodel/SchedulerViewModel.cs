@@ -37,10 +37,10 @@ namespace SchedulerMAUI
             CancelEditAppointment = new Command(CancelEdit);
             this.AppointmentEditorModel = new AppointmentEditorModel();
 
-            this.GenerateAppointments();
+            Appointments = new ObservableCollection<SchedulerAppointment>();
 
             var dataBaseAppointments = App.Database.GetSchedulerAppointment();
-            if (dataBaseAppointments != null)
+            if (dataBaseAppointments != null && dataBaseAppointments.Count > 0)
             {
                 foreach (Appointment appointment in dataBaseAppointments)
                 {
@@ -54,20 +54,19 @@ namespace SchedulerMAUI
                     });
                 }
             }
+            else
+            {
+                this.GenerateAppointments();
+            }
         }
 
         private void GenerateAppointments()
         {
-            if (Appointments == null)
-            {
-                Appointments = new ObservableCollection<SchedulerAppointment>()
-            {
+            this.Appointments.Add
+                (
                 new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddHours(9), EndTime = DateTime.Now.Date.AddHours(10), Subject = "Meeting" }
-            };
-
-            }
+                );
         }
-
 
         private void DeleteSchedulerAppointment()
         {
@@ -161,7 +160,7 @@ namespace SchedulerMAUI
         internal void UpdateEditor(SchedulerAppointment appointment, DateTime selectedDate)
         {
             this.appointment = appointment;
-            this.selectedDate = selectedDate;   
+            this.selectedDate = selectedDate;
             if (this.appointment != null)
             {
                 AppointmentEditorModel.Subject = this.appointment.Subject;
