@@ -34,10 +34,5 @@ namespace SchedulerMAUI
         {
             return _database.Delete(appointment);
         }
-
-        public int DeleteAllSchedulerAppointment()
-        {
-            return _database.DeleteAll<Appointment>();
-        }
     }
 }
