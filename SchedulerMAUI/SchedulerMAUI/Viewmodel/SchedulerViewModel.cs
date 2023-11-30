@@ -62,10 +62,8 @@ namespace SchedulerMAUI
 
         private void GenerateAppointments()
         {
-            this.Appointments.Add
-                (
-                new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddHours(9), EndTime = DateTime.Now.Date.AddHours(10), Subject = "Meeting" }
-                );
+            this.Appointments.Add(new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddHours(9), EndTime = DateTime.Now.Date.AddHours(10), Subject = "Meeting" });
+            this.Appointments.Add(new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddDays(-1).AddHours(9), EndTime = DateTime.Now.Date.AddDays(-1).AddHours(10), Subject = "Meeting" });
         }
 
         private void DeleteSchedulerAppointment()
