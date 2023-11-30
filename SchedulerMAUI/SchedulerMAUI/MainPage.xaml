@@ -7,6 +7,10 @@
              xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              x:Class="SchedulerMAUI.MainPage">
 
+    <ContentPage.BindingContext>
+        <local:SchedulerViewModel/>
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <Grid>
 
@@ -16,12 +20,10 @@
                            AppointmentsSource="{Binding Appointments}"
                            ShowWeekNumber="True"
                            AllowedViews="Day,Week,WorkWeek,Agenda,Month,TimelineDay,TimelineWeek,TimelineWorkWeek,TimelineMonth">
-                <scheduler:SfScheduler.BindingContext>
-                    <local:SchedulerViewModel/>
-                </scheduler:SfScheduler.BindingContext>
+
             </scheduler:SfScheduler>
 
-            <popup:SfPopup x:Name="sfPopup" BindingContext="{Binding}" WidthRequest="550" HeightRequest="500" AutoSizeMode="Both" ShowHeader="False" ShowFooter="False" >
+            <popup:SfPopup x:Name="sfPopup" IsOpen="{Binding IsOpen}" BindingContext="{Binding}" WidthRequest="550" HeightRequest="500" AutoSizeMode="Both" ShowHeader="False" ShowFooter="False" >
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate>
                         <Grid RowDefinitions="*,auto" Margin="20">
@@ -43,7 +45,7 @@
                                             <TimePicker x:Name="startTime_picker" IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}" VerticalOptions="Start" Time="{Binding AppointmentEditorModel.StartTime , Mode=TwoWay}"   />
                                         </inputLayout:SfTextInputLayout>
                                     </Grid>
-                                   
+
                                     <Grid ColumnDefinitions="0.5*,0.5*">
                                         <inputLayout:SfTextInputLayout Hint="End date"   OutlineCornerRadius="8" ContainerBackground="Transparent"
                                ContainerType="Outlined">
@@ -70,16 +72,16 @@
 
                                 </StackLayout>
                             </ScrollView>
-                            
+
                             <Grid HeightRequest="40" Grid.Row="1" ColumnDefinitions="*,auto">
-                                <Button  x:Name="DeleteButton" Clicked="DeleteButton_Clicked"
+                                <Button  x:Name="DeleteButton" Command="{Binding DeleteAppointment}"
                                          WidthRequest="80"  Text="Delete" HorizontalOptions="Start" />
 
                                 <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1">
                                     <Button   HorizontalOptions="Center"   x:Name="cancelButton" WidthRequest="80"
-                                 Text="Cancel" Clicked="CancelButton_Clicked"/>
+                                 Text="Cancel" Command="{Binding CancelEditAppointment}"/>
 
-                                    <Button  Margin="10,0,0,0" x:Name="saveButton" Clicked="SaveButton_Clicked"
+                                    <Button  Margin="10,0,0,0" x:Name="saveButton" Command="{Binding AddAppointment}"
                                 Text="Save" WidthRequest="80"  TextColor="White"/>
                                 </HorizontalStackLayout>
                             </Grid>
