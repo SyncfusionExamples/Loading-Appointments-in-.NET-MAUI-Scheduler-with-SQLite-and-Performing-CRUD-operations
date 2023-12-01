@@ -61,11 +61,11 @@
                                     </Grid>
 
                                     <Grid Margin="2,-12,0,0"  x:Name="allDay"  VerticalOptions="Start" ColumnDefinitions="50,*">
-                                        <Label  Grid.Column="0" VerticalTextAlignment="Center" Text="AllDay"/>
+                                        <Label  Grid.Column="0" VerticalTextAlignment="Center" Text="All day"/>
                                         <Switch Toggled="SwitchAllDay_Toggled" IsToggled="{Binding AppointmentEditorModel.IsAllDay}" Margin="10,0,0,0" x:Name="switchAllDay" Grid.Column="1"  HorizontalOptions="Start" VerticalOptions="Center" />
                                     </Grid>
 
-                                    <inputLayout:SfTextInputLayout  x:Name="organizer_layout" Hint="Notes"
+                                    <inputLayout:SfTextInputLayout  x:Name="organizer_layout" Hint="Notes" 
                              OutlineCornerRadius="8" ContainerBackground="Transparent" ContainerType="Outlined">
                                         <Editor x:Name="organizerText" Text="{Binding AppointmentEditorModel.Notes}" />
                                     </inputLayout:SfTextInputLayout>
