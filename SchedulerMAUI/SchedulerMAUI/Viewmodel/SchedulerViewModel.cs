@@ -62,8 +62,18 @@ namespace SchedulerMAUI
 
         private void GenerateAppointments()
         {
-            this.Appointments.Add(new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddHours(9), EndTime = DateTime.Now.Date.AddHours(10), Subject = "Meeting" });
-            this.Appointments.Add(new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddDays(-1).AddHours(9), EndTime = DateTime.Now.Date.AddDays(-1).AddHours(10), Subject = "Meeting" });
+            SchedulerAppointment appointment1 = new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddHours(9), EndTime = DateTime.Now.Date.AddHours(10), Subject = "Meeting" };
+            SchedulerAppointment appointment2 = new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddDays(-1).AddHours(9), EndTime = DateTime.Now.Date.AddDays(-1).AddHours(10), Subject = "Meeting" };
+            this.Appointments.Add(appointment1);
+            this.Appointments.Add(appointment2);
+
+            var editAppointment = new Appointment() { From = appointment1.StartTime, To = appointment1.EndTime, AllDay = appointment1.IsAllDay, Notes = appointment1.Notes, EventName = appointment1.Subject, ID = (int)appointment1.Id };
+            var editAppointment1 = new Appointment() { From = appointment2.StartTime, To = appointment2.EndTime, AllDay = appointment1.IsAllDay, Notes = appointment2.Notes, EventName = appointment2.Subject, ID = (int)appointment2.Id };
+
+            App.Database.SaveSchedulerAppointmentAsync(editAppointment);
+            App.Database.SaveSchedulerAppointmentAsync(editAppointment1);
+
+
         }
 
         private void DeleteSchedulerAppointment()
