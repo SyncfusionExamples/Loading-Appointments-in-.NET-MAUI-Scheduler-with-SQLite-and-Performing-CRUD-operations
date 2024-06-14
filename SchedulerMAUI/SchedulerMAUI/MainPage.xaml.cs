@@ -13,6 +13,8 @@ namespace SchedulerMAUI
 
         private void Scheduler_Tapped(object sender, SchedulerTappedEventArgs e)
         {
+            if (e.Element == SchedulerElement.Header) return;
+
             if (this.BindingContext is SchedulerViewModel schedulerViewModel)
             {
                 SchedulerAppointment appointment;
