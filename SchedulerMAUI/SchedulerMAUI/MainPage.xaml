@@ -15,6 +15,7 @@
         <Grid>
 
             <scheduler:SfScheduler x:Name="Scheduler" 
+                                   x:DataType="local:SchedulerViewModel"
                            View="Week"
                            Tapped="Scheduler_Tapped"
                            AppointmentsSource="{Binding Appointments}"
@@ -23,7 +24,9 @@
 
             </scheduler:SfScheduler>
 
-            <popup:SfPopup x:Name="sfPopup" IsOpen="{Binding IsOpen}" BindingContext="{Binding}" WidthRequest="550" HeightRequest="500" AutoSizeMode="Both" ShowHeader="False" ShowFooter="False" >
+            <popup:SfPopup x:Name="sfPopup"
+                           x:DataType="local:SchedulerViewModel"
+                           IsOpen="{Binding IsOpen}" BindingContext="{Binding}" WidthRequest="550" HeightRequest="500" AutoSizeMode="Both" ShowHeader="False" ShowFooter="False" >
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate>
                         <Grid RowDefinitions="*,auto" Margin="20">
@@ -31,57 +34,77 @@
                                 <StackLayout>
                                     <inputLayout:SfTextInputLayout 
                                         x:Name="eventName_layout" Hint="Event name" ContainerBackground="Transparent" OutlineCornerRadius="8" ContainerType="Outlined">
-                                        <Entry x:Name="eventNameText" Text="{Binding AppointmentEditorModel.Subject}" />
+                                        <Entry x:Name="eventNameText"
+                                               x:DataType="local:AppointmentEditorModel"
+                                               Text="{Binding Subject}" />
                                     </inputLayout:SfTextInputLayout>
 
                                     <Grid ColumnDefinitions="0.5*,0.5*">
                                         <inputLayout:SfTextInputLayout Hint="Start date"   OutlineCornerRadius="8" ContainerBackground="Transparent"
                       ContainerType="Outlined" >
-                                            <DatePicker x:Name="startDate_picker" Date="{Binding AppointmentEditorModel.StartDate}" />
+                                            <DatePicker x:Name="startDate_picker"
+                                                        x:DataType="local:AppointmentEditorModel"
+                                                        Date="{Binding StartDate}" />
                                         </inputLayout:SfTextInputLayout>
 
                                         <inputLayout:SfTextInputLayout Grid.Column="1" Margin="10,0,0,0"  Hint="Start time"  OutlineCornerRadius="8" ContainerBackground="Transparent"
                      ContainerType="Outlined">
-                                            <TimePicker x:Name="startTime_picker" IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}" VerticalOptions="Start" Time="{Binding AppointmentEditorModel.StartTime , Mode=TwoWay}"   />
+                                            <TimePicker x:Name="startTime_picker"
+                                                        x:DataType="local:AppointmentEditorModel"
+                                                        IsEnabled="{Binding IsEditorEnabled}" VerticalOptions="Start" Time="{Binding AppointmentEditorModel.StartTime , Mode=TwoWay}"   />
                                         </inputLayout:SfTextInputLayout>
                                     </Grid>
 
                                     <Grid ColumnDefinitions="0.5*,0.5*">
                                         <inputLayout:SfTextInputLayout Hint="End date"   OutlineCornerRadius="8" ContainerBackground="Transparent"
                                ContainerType="Outlined">
-                                            <DatePicker x:Name="endDate_picker" Date="{Binding AppointmentEditorModel.EndDate}" />
+                                            <DatePicker x:Name="endDate_picker"
+                                                        x:DataType="local:AppointmentEditorModel"
+                                                        Date="{Binding EndDate}" />
                                         </inputLayout:SfTextInputLayout>
 
                                         <inputLayout:SfTextInputLayout  Hint="End time" Margin="10,0,0,0"  Grid.Column="1"  OutlineCornerRadius="8" ContainerBackground="Transparent"
                                ContainerType="Outlined" >
-                                            <TimePicker x:Name="endTime_picker"  IsEnabled="{Binding AppointmentEditorModel.IsEditorEnabled}"
+                                            <TimePicker x:Name="endTime_picker"  
+                                                        x:DataType="local:AppointmentEditorModel"
+                                                        IsEnabled="{Binding IsEditorEnabled}"
                                                         HorizontalOptions="Start"
-                                                        Time="{Binding AppointmentEditorModel.EndTime}" />
+                                                        Time="{Binding EndTime}" />
                                         </inputLayout:SfTextInputLayout>
                                     </Grid>
 
                                     <Grid Margin="2,-12,0,0"  x:Name="allDay"  VerticalOptions="Start" ColumnDefinitions="50,*">
                                         <Label  Grid.Column="0" VerticalTextAlignment="Center" Text="All day"/>
-                                        <Switch Toggled="SwitchAllDay_Toggled" IsToggled="{Binding AppointmentEditorModel.IsAllDay}" Margin="10,0,0,0" x:Name="switchAllDay" Grid.Column="1"  HorizontalOptions="Start" VerticalOptions="Center" />
+                                        <Switch Toggled="SwitchAllDay_Toggled"
+                                                x:DataType="local:AppointmentEditorModel"
+                                                IsToggled="{Binding IsAllDay}" Margin="10,0,0,0" x:Name="switchAllDay" Grid.Column="1"  HorizontalOptions="Start" VerticalOptions="Center" />
                                     </Grid>
 
                                     <inputLayout:SfTextInputLayout  x:Name="organizer_layout" Hint="Notes" 
                              OutlineCornerRadius="8" ContainerBackground="Transparent" ContainerType="Outlined">
-                                        <Editor x:Name="organizerText" Text="{Binding AppointmentEditorModel.Notes}" />
+                                        <Editor x:Name="organizerText"
+                                                x:DataType="local:AppointmentEditorModel"
+                                                Text="{Binding Notes}" />
                                     </inputLayout:SfTextInputLayout>
 
                                 </StackLayout>
                             </ScrollView>
 
                             <Grid HeightRequest="40" Grid.Row="1" ColumnDefinitions="*,auto">
-                                <Button  x:Name="DeleteButton" Command="{Binding DeleteAppointment}"
+                                <Button  x:Name="DeleteButton" 
+                                         x:DataType="local:SchedulerViewModel"
+                                         Command="{Binding DeleteAppointment}"
                                          WidthRequest="80"  Text="Delete" HorizontalOptions="Start" />
 
                                 <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1">
-                                    <Button   HorizontalOptions="Center"   x:Name="cancelButton" WidthRequest="80"
+                                    <Button   HorizontalOptions="Center" 
+                                              x:DataType="local:SchedulerViewModel"
+                                              x:Name="cancelButton" WidthRequest="80"
                                  Text="Cancel" Command="{Binding CancelEditAppointment}"/>
 
-                                    <Button  Margin="10,0,0,0" x:Name="saveButton" Command="{Binding AddAppointment}"
+                                    <Button  Margin="10,0,0,0"
+                                             x:DataType="local:SchedulerViewModel"
+                                             x:Name="saveButton" Command="{Binding AddAppointment}"
                                 Text="Save" WidthRequest="80"  TextColor="White"/>
                                 </HorizontalStackLayout>
                             </Grid>

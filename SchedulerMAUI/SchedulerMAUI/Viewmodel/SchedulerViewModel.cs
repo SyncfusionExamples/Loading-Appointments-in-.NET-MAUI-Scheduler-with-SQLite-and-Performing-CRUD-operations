@@ -6,18 +6,18 @@ namespace SchedulerMAUI
 {
     public class SchedulerViewModel : INotifyPropertyChanged
     {
-        private SchedulerAppointment appointment;
+        private SchedulerAppointment? appointment;
         private DateTime selectedDate;
 
-        public Command AddAppointment { get; set; }
+        public Command? AddAppointment { get; set; }
 
-        public Command DeleteAppointment { get; set; }
+        public Command? DeleteAppointment { get; set; }
 
-        public Command CancelEditAppointment { get; set; }
+        public Command? CancelEditAppointment { get; set; }
 
-        public AppointmentEditorModel AppointmentEditorModel { get; set; }
+        public AppointmentEditorModel AppointmentEditorModel { get; set; } = new AppointmentEditorModel();
 
-        public ObservableCollection<SchedulerAppointment> Appointments { get; set; }
+        public ObservableCollection<SchedulerAppointment>? Appointments { get; set; } = new ObservableCollection<SchedulerAppointment>();
 
         private bool isOpen;
         public bool IsOpen
@@ -64,8 +64,8 @@ namespace SchedulerMAUI
         {
             SchedulerAppointment appointment1 = new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddHours(9), EndTime = DateTime.Now.Date.AddHours(10), Subject = "Meeting" };
             SchedulerAppointment appointment2 = new SchedulerAppointment() { StartTime = DateTime.Now.Date.AddDays(-1).AddHours(9), EndTime = DateTime.Now.Date.AddDays(-1).AddHours(10), Subject = "Meeting" };
-            this.Appointments.Add(appointment1);
-            this.Appointments.Add(appointment2);
+            this.Appointments?.Add(appointment1);
+            this.Appointments?.Add(appointment2);
 
             var editAppointment = new Appointment() { From = appointment1.StartTime, To = appointment1.EndTime, AllDay = appointment1.IsAllDay, Notes = appointment1.Notes, EventName = appointment1.Subject, ID = (int)appointment1.Id };
             var editAppointment1 = new Appointment() { From = appointment2.StartTime, To = appointment2.EndTime, AllDay = appointment1.IsAllDay, Notes = appointment2.Notes, EventName = appointment2.Subject, ID = (int)appointment2.Id };
@@ -85,7 +85,7 @@ namespace SchedulerMAUI
             }
 
             //// Remove the appointments in the Scheduler.
-            Appointments.Remove(this.appointment);
+            Appointments?.Remove(this.appointment);
             //// Delete appointment in the database
             var deleteAppointment = new Appointment() { From = appointment.StartTime, To = appointment.EndTime, AllDay = appointment.IsAllDay, Notes = appointment.Notes, EventName = appointment.Subject, ID = (int)appointment.Id };
             App.Database.DeleteSchedulerAppointmentAsync(deleteAppointment);
@@ -97,22 +97,22 @@ namespace SchedulerMAUI
             this.IsOpen = false;
         }
 
-        private void AddAppointmentDetails()
+        private async void AddAppointmentDetails()
         {
-            var endDate = AppointmentEditorModel.EndDate;
-            var startDate = AppointmentEditorModel.StartDate;
-            var endTime = AppointmentEditorModel.EndTime;
-            var startTime = AppointmentEditorModel.StartTime;
+            var endDate = AppointmentEditorModel?.EndDate;
+            var startDate = AppointmentEditorModel?.StartDate;
+            var endTime = AppointmentEditorModel?.EndTime;
+            var startTime = AppointmentEditorModel?.StartTime;
 
             if (endDate < startDate)
             {
-                Application.Current.MainPage.DisplayAlert("", "End date should be greater than start date", "OK");
+                await DisplayAlert("", "End date should be greater than start date", "OK");
             }
             else if (endDate == startDate)
             {
                 if (endTime <= startTime)
                 {
-                    Application.Current.MainPage.DisplayAlert("", "End time should be greater than start time", "OK");
+                       await DisplayAlert("", "End time should be greater than start time", "OK");
                 }
                 else
                 {
@@ -126,6 +126,9 @@ namespace SchedulerMAUI
         }
         private void AppointmentDetails()
         {
+            if (AppointmentEditorModel.Subject == null || AppointmentEditorModel.Notes == null)
+                return;
+
             if (appointment == null)
             {
                 appointment = new SchedulerAppointment();
@@ -161,6 +164,7 @@ namespace SchedulerMAUI
         private void SaveSchedulerAppointmentAsync()
         {
             //// - add or edit the appointment in the database collection
+            if(appointment ==  null) { return; }
             var editAppointment = new Appointment() { From = appointment.StartTime, To = appointment.EndTime, AllDay = appointment.IsAllDay, Notes = appointment.Notes, EventName = appointment.Subject, ID = (int)appointment.Id };
             App.Database.SaveSchedulerAppointmentAsync(editAppointment);
         }
@@ -204,12 +208,25 @@ namespace SchedulerMAUI
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string name)
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        /// <summary>
+        /// Displays an alert dialog to the user.
+        /// </summary>
+        /// <param name="title">The title of the alert dialog.</param>
+        /// <param name="message">The message to display.</param>
+        /// <param name="cancel">The text for the cancel button.</param>
+        /// <returns>A task representing the asynchronous alert display operation.</returns>
+        private Task DisplayAlert(string title, string message, string cancel)
+        {
+            return App.Current?.Windows?[0]?.Page!.DisplayAlert(title, message, cancel)
+                   ?? Task.FromResult(false);
         }
     }
 }

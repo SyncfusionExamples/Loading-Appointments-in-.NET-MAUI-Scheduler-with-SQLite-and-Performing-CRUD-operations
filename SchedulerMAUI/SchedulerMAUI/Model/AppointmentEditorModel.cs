@@ -4,12 +4,12 @@ namespace SchedulerMAUI
 {
     public class AppointmentEditorModel : INotifyPropertyChanged
     {
-        private string subject , notes;
+        private string? subject , notes;
         private TimeSpan startTime , endTime;
         private bool isAllDay , isEditorEnabled= true;
         private DateTime startDate, endDate;
 
-        public string Subject
+        public string? Subject
         {
             get { return subject; }
             set
@@ -19,7 +19,7 @@ namespace SchedulerMAUI
             }
         }
 
-        public string Notes
+        public string? Notes
         {
             get { return notes; }
             set
@@ -91,7 +91,7 @@ namespace SchedulerMAUI
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         private void RaisePropertyChanged(string propertyname)
         {
             if (PropertyChanged != null)

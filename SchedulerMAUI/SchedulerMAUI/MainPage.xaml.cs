@@ -11,8 +11,9 @@ namespace SchedulerMAUI
             this.Scheduler.DisplayDate = DateTime.Today.Date.AddHours(8);
         }
 
-        private void Scheduler_Tapped(object sender, SchedulerTappedEventArgs e)
+        private void Scheduler_Tapped(object? sender, SchedulerTappedEventArgs e)
         {
+            if (sender == null || e == null) { return; }
             if (e.Element == SchedulerElement.Header) return;
 
             if (this.BindingContext is SchedulerViewModel schedulerViewModel)
