@@ -2,12 +2,10 @@
 
 public partial class App : Application
 {
-    static SchedulerDatabase database;
+    static SchedulerDatabase? database;
     public App()
 	{
 		InitializeComponent();
-
-		MainPage = new MainPage();
 	}
 
     public static SchedulerDatabase Database
